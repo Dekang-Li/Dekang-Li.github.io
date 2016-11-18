@@ -1,1 +1,138 @@
-哈喽
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			body {
+				margin: 0; 
+				padding: 0;
+			}
+			ul {
+				margin: 0;
+				padding: 0;
+			}
+		    h2 {
+		    	font-size: 12px; 
+		    	font-weight: normal; 
+		    	height: 30px; 
+		    	line-height: 30px; 
+		    	width: 133px; 
+		    	padding-left: 15px;
+		    	margin: 0;
+		    }
+		    .active {
+		    	border: 1px solid #999; 
+		    	height: 28px; 
+		    	line-height: 28px; 
+		    	background: #ccc; 
+		    	cursor: default;
+		    	padding-left: 14px;
+		    }
+		    ul {
+		    	width: 150px; 
+		    	background: #99F; 
+		    	border: 1px solid #888;
+		    }
+		    li {
+		    	position: relative; 
+		    	list-style: none; 
+		    	float: left;
+		    }
+		    #menu {
+		    	position: absolute; 
+		    	display: none;
+		    }
+		    #menu ul {
+		    	position: absolute; 
+		    	top: 0; 
+		    	left: 145px; 
+		    	display: none;
+		    }
+		    span {
+		    	display: block; 
+			    width: 0; 
+			    height: 0; 
+			    border-width: 4px; 
+			    border-style: solid; 
+			    border-color: #99F #99F #99F #333; 
+			    font-size: 0; 
+			    line-height: 0; 
+			    float: right; 
+			    position: absolute; 
+			    top: 12px; 
+			    right: 15px;
+		    }
+		    li h2.active span {
+		    	right: 16px;
+		    	border-color: #ccc #ccc #ccc #333;
+		    }
+		</style>
+	</head>
+	<body>
+	</body>
+	<script src="data.js"></script>
+	<script>
+		(function() {
+			var body = document.body;
+			var inner = "";
+			setData(Data);
+			body.innerHTML = inner;
+			function setData(obj) {
+				inner += "<ul id='menu'>";
+					for(var i = 0; i < obj.length; i++) {
+						inner += "<li>";						
+						if(obj[i].child) {
+							inner += "<h2>" + obj[i].name + "<span></span></h2>";
+						}else {
+							inner += "<h2>" + obj[i].name + "</h2>";
+						}
+						if(obj[i].child) {
+							setData(obj[i].child);
+						}
+						inner += "</li>";
+					}
+				inner += "</ul>";		
+			}
+			var menu = document.getElementById("menu");
+			var h2 = document.getElementsByTagName("h2");
+			var uls = document.getElementsByTagName("ul");
+			console.log(h2);
+			document.oncontextmenu=function(e){
+				
+				menu.style.display = "block";
+				menu.style.cssText = "left:" + e.pageX + "px;top:" + e.pageY + "px; display: block";
+					for(var i = 0; i < h2.length; i++){
+		                h2[i].index = i;
+		                h2[i].onmouseover = function() {
+		                    this.className = "active";
+		                    var next = this.nextElementSibling;
+		                    var ul = this.parentNode.parentNode.getElementsByTagName("ul");
+		                    for(var i = 0; i < ul.length; i++){
+		                        if(ul[i] != next) {
+		                            ul[i].style.display = "none";
+		                        }
+		                    }
+		                    if(next) {
+		                        next.style.display = "block";
+		                    }
+		
+		                }
+		                h2[i].onmouseout = function() {
+		                    this.className = "";
+		                }
+		            }
+				return false;
+			}
+			document.onclick = function() {
+				for(var i = 0; i < uls.length; i++) {
+					uls[i].style.display = "none";
+				}
+               
+                
+            }
+			
+			
+		})();
+	</script>
+</html>
