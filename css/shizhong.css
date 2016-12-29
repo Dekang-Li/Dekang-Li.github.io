@@ -1,0 +1,14 @@
+#wrap {
+	position: relative;
+}
+
+#wrap #shizhong-canvas {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	display: block;
+	z-index: 2;
+	background: beige;
+	border-radius: 50%;
+}
+
