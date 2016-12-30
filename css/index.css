@@ -20,6 +20,7 @@ body {
 	height: 100%;
 	background: url(../img/bg.jpg) no-repeat;
 	background-size: 100% 100%;
+	overflow: hidden;
 }
 
 
@@ -29,7 +30,13 @@ body {
 	width: 90px;
 	height: 90px;
 	margin-bottom: 20px;
+	padding: 2px;
 	/*border: 1px solid black;*/
+}
+#wrap .div{
+	background: rgba(255,255,255,.4);
+	padding: 0;
+	border: 2px solid rgba(255,255,255,.4);
 }
 
 #wrap div img {

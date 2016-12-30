@@ -57,7 +57,7 @@
 			}
 			ev.preventDefault();
 		},
-		fnMove: function(ev) {
+		fnMove: function(ev) {    
 			this.box.style.left = ev.pageX - this.disX + "px";
 			this.box.style.top = ev.pageY - this.disY + "px";
 			l = ev.pageX - this.disX;
@@ -78,13 +78,15 @@
 		fnUp: function(move, up) {
 			document.removeEventListener("mousemove", move);
 			document.removeEventListener("mouseup", up);
-			//			this.box.style.background = '';
 		},
 		fnOver: function() {
-			this.box.style.background =  "rgba(255,255,255,.4)";
+//			this.box.style.background =  "rgba(255,255,255,.4)";
+//			this.box.style.bo
+			this.box.className = "div";
 		},
 		fnOut: function() {
-			this.box.style.background =  "";
+//			this.box.style.background =  "";
+			this.box.className = "";
 		},
 		fnClick: function() {
 			alert(1);
@@ -117,11 +119,14 @@
 			var _this = this;
 			document.oncontextmenu=function(ev) {
 				_this.fnSet(ev);
-			}
+				return false;
+			};
+			document.onclick = function() {
+				_this.cDoc();
+           	};
 			this.box.appendChild(this.setRclick(rgtClick));
-			console.log(this.setRclick(rgtClick));
 		}, 
-		setRclick: function(obj) {
+		setRclick: function(obj) {         //数据生成结构
 			var ul = document.createElement("ul");
 			ul.className = "menu";
 			for(var i = 0; i < obj.length; i++) {
@@ -143,13 +148,45 @@
 			};
 			return ul;
 		},
-		fnSet: function(ev) {
-			var menu = document.getElementsByClassName("menu");
+		fnSet: function(ev) {          //移入设置
+			var rClick = document.getElementById("rClick");
+			var menu = document.getElementsByClassName("menu")[0];
 			var h2 = document.getElementsByTagName("h2");
 			var uls = document.getElementsByTagName("ul");
-			console.log(menu,uls);
+			
+			menu.style.display = "block";
+			rClick.style.cssText = "left: "+ev.pageX+"px; top: "+ev.pageY+"px; ";
+			for(var i = 0; i < h2.length; i++){
+                h2[i].index = i;
+                h2[i].onmouseover = function() {
+                    this.className = "active";
+                    var prev = this.previousElementSibling;
+                    var ul = this.parentNode.parentNode.getElementsByTagName("ul");
+//                  console.log(prev,ul);
+                    for(var i = 0; i < ul.length; i++){
+                        if(ul[i] != prev) {
+                            ul[i].style.display = "none";
+                        }
+                    }
+                    if(prev) {
+                        prev.style.display = "block";
+                    }
+                }
+                h2[i].onmouseout = function() {
+                    this.className = "";
+                }
+           	};
+			
+			
+		},
+		cDoc: function() {
+			var uls = document.getElementsByTagName("ul");
+			for(var i = 0; i < uls.length; i++) {
+				uls[i].style.display = "none";
+			}
 		}
 	};
 	var rc = new rClick("rClick");
 	
 })();
+
